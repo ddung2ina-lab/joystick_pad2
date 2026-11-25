@@ -1,0 +1,86 @@
+{
+  "view": "Front view, top to bottom, left then right",
+  "buttons": [
+    {
+      "row": 1,
+      "side": "left",
+      "label": "L2",
+      "gpio": 3,
+      "hid_usage": 9
+    },
+    {
+      "row": 1,
+      "side": "right",
+      "label": "R2",
+      "gpio": 2,
+      "hid_usage": 10
+    },
+    {
+      "row": 2,
+      "side": "left",
+      "label": "X",
+      "gpio": 5,
+      "hid_usage": 4
+    },
+    {
+      "row": 2,
+      "side": "right",
+      "label": "Y",
+      "gpio": 4,
+      "hid_usage": 5
+    },
+    {
+      "row": 3,
+      "side": "left",
+      "label": "A",
+      "gpio": 7,
+      "hid_usage": 1
+    },
+    {
+      "row": 3,
+      "side": "right",
+      "label": "B",
+      "gpio": 6,
+      "hid_usage": 2
+    },
+    {
+      "row": 4,
+      "side": "left",
+      "label": "Select",
+      "gpio": 10,
+      "hid_usage": 11
+    },
+    {
+      "row": 4,
+      "side": "right",
+      "label": "Start",
+      "gpio": 8,
+      "hid_usage": 12
+    },
+    {
+      "row": null,
+      "side": "joystick",
+      "label": "L3",
+      "gpio": 9,
+      "hid_usage": 14
+    }
+  ],
+  "joystick": {
+    "VRX": 26,
+    "VRY": 27,
+    "SW": 9,
+    "VCC": "3V3",
+    "GND": "GND"
+  },
+  "digital_triggers": true,
+  "board": "RP2040 Pro Micro / W25Q32",
+  "boot2": "boot2_W25Q32JVxQ_4_padded_checksum",
+  "product": "Handpad 8Key L3",
+  "unused_gpio": 11,
+  "board_markings": {
+    "joystick_SW": "9",
+    "Select": "10",
+    "Start": "8"
+  },
+  "wiring_update": "All four left/right button pairs swapped after physical wiring feedback; stick SW stays GPIO9/L3."
+}

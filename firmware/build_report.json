@@ -1,0 +1,87 @@
+{
+  "compile_success": true,
+  "fqbn": "rp2040:rp2040:generic:flash=2097152_0,usbstack=tinyusb",
+  "core": "Arduino-Pico 6.3.2",
+  "boot2": "boot2_W25Q32JVxQ_4_padded_checksum",
+  "bytes": 195072,
+  "sha256": "1dbf1108340066c460f1423555464a734c7c4614b77f637a56840651b3ba515d",
+  "uf2_blocks": 381,
+  "family": "RP2040 / 0xE48BFF56",
+  "button_table_verified_in_ELF_and_delivered_UF2": true,
+  "button_table_flash_address": "0x100173c8",
+  "buttons": [
+    {
+      "row": 1,
+      "side": "left",
+      "label": "L2",
+      "gpio": 3,
+      "hid_usage": 9
+    },
+    {
+      "row": 1,
+      "side": "right",
+      "label": "R2",
+      "gpio": 2,
+      "hid_usage": 10
+    },
+    {
+      "row": 2,
+      "side": "left",
+      "label": "X",
+      "gpio": 5,
+      "hid_usage": 4
+    },
+    {
+      "row": 2,
+      "side": "right",
+      "label": "Y",
+      "gpio": 4,
+      "hid_usage": 5
+    },
+    {
+      "row": 3,
+      "side": "left",
+      "label": "A",
+      "gpio": 7,
+      "hid_usage": 1
+    },
+    {
+      "row": 3,
+      "side": "right",
+      "label": "B",
+      "gpio": 6,
+      "hid_usage": 2
+    },
+    {
+      "row": 4,
+      "side": "left",
+      "label": "Select",
+      "gpio": 10,
+      "hid_usage": 11
+    },
+    {
+      "row": 4,
+      "side": "right",
+      "label": "Start",
+      "gpio": 8,
+      "hid_usage": 12
+    },
+    {
+      "row": null,
+      "side": "joystick",
+      "label": "L3",
+      "gpio": 9,
+      "hid_usage": 14
+    }
+  ],
+  "sanitized_path_strings": 2,
+  "boot2_unchanged_after_cleanup": true,
+  "boot2_all_256_bytes_match_W25Q32_source": true,
+  "boot2_sha256": "19ca8ee12bfc9b251c011372efb46baf5ecc1cb747f03da6301eda622df8d012",
+  "product": "Handpad 8Key L3",
+  "report_bytes": 6,
+  "physical_flash_test": false,
+  "device_uploaded": false,
+  "axis_orientation_hardware_verified": false,
+  "column_pairs_swapped": true
+}

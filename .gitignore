@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+firmware/*.elf
+firmware/build.log
+.local/
