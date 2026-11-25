@@ -26,7 +26,8 @@ log=run.stdout.decode('utf8',errors='replace')
 print(log[-7000:],flush=True)
 assert run.returncode==0,'Compilation failed; see build.log'
 raw=(output/'Handpad8.ino.uf2').read_bytes();clean,paths=make_public(raw)
-target=ROOT/'Handpad8_ColumnsFixed.uf2';target.write_bytes(clean)
+release_dir=ROOT/'.local/release';release_dir.mkdir(parents=True,exist_ok=True)
+target=release_dir/'JoystickPad2.uf2';target.write_bytes(clean)
 
 # Verify every UF2 block, contiguous flash, family ID and the emitted button table
 # from the ELF symbol, rather than trusting only the source mapping.
@@ -81,6 +82,6 @@ report={'compile_success':True,'fqbn':fqbn,'core':'Arduino-Pico 6.3.2','boot2':c
         'product':config['product'],'report_bytes':6,'physical_flash_test':False,
         'device_uploaded':False,'axis_orientation_hardware_verified':False,'column_pairs_swapped':True}
 (HERE/'build_report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
-(ROOT/'Handpad8_ColumnsFixed.sha256.txt').write_text(digest+'  Handpad8_ColumnsFixed.uf2\n',encoding='ascii')
+(release_dir/'SHA256SUMS.txt').write_text(digest+'  JoystickPad2.uf2\n',encoding='ascii')
 shutil.copy2(output/'Handpad8.ino.elf',HERE/'Handpad8.elf')
 print('UF2 VERIFIED:',len(clean),'bytes, SHA256',digest,flush=True)

@@ -1,165 +1,80 @@
-# joystick_pad2 — 8키 한손 게임패드
+# 8-Key Palm Joystick Pad
 
-오른손으로 사용하는 **2열 × 4행 키보드 + 손바닥 조이스틱**이다. 윗뚜껑에는 조작부가 없고 USB 케이블은 본체 안에서 연결한 뒤 서쪽 측면으로 빠진다.
+A right-hand USB gamepad with **eight MX keys in two columns**, a palm-side analog stick, and a blank top lid. The USB cable connects inside the case and exits through the left side of the body/lid joint.
 
-현재 모델은 **본체 v17 / 앞판 v14 / 뚜껑 v16** 조합이다. 조이스틱 기판 받침을 서쪽으로 총 1.5mm 옮겼고, 받침의 나사·인서트 구멍을 복원했다. 별도 조이스틱 고정탭·핀은 포함하지 않으며 기판은 실리콘으로 고정한다.
+Download the **3MF print project from the corresponding MakerWorld model page**. Mechanical files are not included in this repository.
 
-## 받기
+![Assembled case: keyboard side and palm side](docs/images/assembled.png)
 
-| 파일 | 용도 |
+## 1. Parts
+
+| Part | Quantity and specification |
 | --- | --- |
-| [좌우 열 수정 UF2](https://github.com/ddung2ina-lab/joystick_pad2/raw/refs/heads/main/Handpad8_ColumnsFixed.uf2) | 아래 최종 배선표에 맞춘 RP2040 펌웨어 |
-| [UF2 SHA-256](Handpad8_ColumnsFixed.sha256.txt) | 다운로드 파일 확인 |
-| [전체 출력용 3MF](models/handpad_v17.3mf) | 본체·앞판·뚜껑 3개, 출력 방향과 설정 포함 |
-| [본체만 3MF](models/body_v17.3mf) | 기존 앞판·뚜껑을 재사용할 때 |
-| [본체 STL](models/body_v17.stl) / [앞판 STL](models/front_v14.stl) / [뚜껑 STL](models/lid_v16.stl) | 개별 형상. 출력 설정은 별도로 지정 |
+| Printed case parts | **3**: body, eight-key front plate, and top lid; from MakerWorld |
+| RP2040 Pro Micro USB-C board | **1**; nominal 33 × 18 mm PCB; this project's board uses Winbond W25Q32 flash |
+| HW-504 / KY-023-style joystick and cap | **1 set**; analog X/Y and SW click; CAD PCB target 34 × 26 × 1.6 mm. Check your module's component outline |
+| MX switches and 1U keycaps | **8 of each**; 19.05 mm key pitch |
+| M3 machine screws | **6 × M3 × 10 mm**; length measured under the head; flat seating underside, not countersunk |
+| M3 heat-set brass inserts | **6**; M3 internal thread, outside diameter approximately 4 mm × length 5 mm |
+| Insulated wire and solder | Eight key signal wires, shared GND, and five joystick connections |
+| USB data cable | **1**; USB-C at the controller end; cable must fit the 5 mm side exit |
+| Silicone adhesive | A small amount to secure the joystick PCB and controller PCB |
+| Tools | Soldering iron, cutters, tweezers, and screwdriver; multimeter recommended |
 
-기존 뚜껑이 간섭 없이 닫히면 그대로 사용해도 된다. 파일을 GitHub 화면에서 열었다면 **Download raw file**로 내려받는다.
+**Screw/insert distribution:** front plate **4**, lid-to-body **2**. Joystick support bores are retained in the body, but this version uses **silicone fixation without separate retaining tabs or pins**, so extra joystick screws/inserts are not required.
 
-## 준비물
+## 2. Wiring
 
-| 준비물 | 수량 | 비고 |
-| --- | ---: | --- |
-| 출력한 본체·앞판·뚜껑 | 각 1개 | 총 3개 부품 |
-| RP2040 Pro Micro 보드 | 1개 | 기존 W25Q32 부팅 수정으로 사용하던 보드 기준 |
-| 5핀 아날로그 조이스틱 모듈과 캡 | 1세트 | GND / VCC / VRX / VRY / SW. 기존 프로젝트에서 사용한 모듈 기준이며 다른 모듈의 호환 치수는 확인하지 않음 |
-| MX 호환 스위치 | 8개 | 스위치 체결 구멍 14.1mm |
-| 1U 키캡 | 8개 | 키 간격 19.05mm |
-| M3×10 나사 | 6개 | 앞판 4개 + 뚜껑 2개 |
-| M3 황동 열압입 인서트 | 6개 | 외경 약 4mm × 길이 5mm 기준. 앞판·뚜껑용 |
-| USB 데이터 케이블 | 1개 | 본체 안쪽 보드에 연결. 케이블 외경은 지름 5mm 출구에 맞는 것 |
-| 배선용 연선·납·수축튜브 등 | 적당량 | 각 버튼 신호선과 공통 GND 배선 |
-| 실리콘 접착제 | 소량 | 조이스틱 기판과 메인보드 고정 |
-| 인두·드라이버·니퍼·핀셋 | 각 1개 | 인서트 설치, 납땜, 서포트 제거 |
+![Logical wiring diagram, viewed from the keyboard front](docs/images/wiring.svg)
 
-조이스틱 받침의 인서트 구멍 2개는 형상에 남아 있지만, 현재 실리콘 고정 방식에서는 추가 인서트·나사·고정탭을 필수 준비물로 세지 않는다.
+Key positions below are viewed **from the front**, with the lid at the top. When soldering from behind, the physical left/right positions are mirrored. Keep the function labels referenced to the front view.
 
-## 버튼 배치와 최종 배선
+Use **RP2040 GPIO numbers**, not header positions or USB button numbers. This UF2 corrects all four left/right key pairs for the existing wiring:
 
-**키보드 앞에서 봤을 때** 위에서 아래로, 각 행은 왼쪽 → 오른쪽 순서다.
+| Row | Left key | Right key |
+| --- | --- | --- |
+| 1 — top | GPIO **3** → **L2** | GPIO **2** → **R2** |
+| 2 | GPIO **5** → **X** | GPIO **4** → **Y** |
+| 3 | GPIO **7** → **A** | GPIO **6** → **B** |
+| 4 — bottom | GPIO **10** → **Select** | GPIO **8** → **Start** |
 
-```text
-          위
-     ┌──────┬──────┐
- 1행 │  L2  │  R2  │
-     ├──────┼──────┤
- 2행 │   X  │   Y  │
-     ├──────┼──────┤
- 3행 │   A  │   B  │
-     ├──────┼──────┤
- 4행 │Select│Start │
-     └──────┴──────┘
-          아래
+Connect each switch's other electrical contact to a shared **GND**. L2/R2 are **digital buttons**, not analog trigger axes.
 
- 조이스틱 클릭 = L3
-```
-
-### 스위치 8개
-
-이번 UF2는 실제 조립 후 발견된 **좌우 열 뒤바뀜을 4행 모두 수정**했다. 기존 납땜을 유지한 상태에서 기능을 바꾸는 펌웨어다. 아래 번호는 펌웨어의 **RP2040 GPIO 번호**이며 USB 게임패드 버튼 번호와 다르다.
-
-| 위치 | 버튼 | GPIO | USB HID 버튼 번호 |
-| --- | --- | ---: | ---: |
-| 1행 왼쪽 | L2 | **3** | 9 |
-| 1행 오른쪽 | R2 | **2** | 10 |
-| 2행 왼쪽 | X | **5** | 4 |
-| 2행 오른쪽 | Y | **4** | 5 |
-| 3행 왼쪽 | A | **7** | 1 |
-| 3행 오른쪽 | B | **6** | 2 |
-| 4행 왼쪽 | Select | **10** | 11 |
-| 4행 오른쪽 | Start | **8** | 12 |
-| 조이스틱 클릭 | L3 | **9** | 14 |
-
-각 스위치의 전기 접점 한쪽은 해당 GPIO, 다른 쪽은 공통 GND에 연결한다. 스위치에 달린 LED 접점과 혼동하지 않는다. L2/R2는 아날로그 트리거 축이 아니라 **디지털 버튼**이다.
-
-이전 `Handpad8_SW9_Select8.uf2`에서는 GPIO8이 Select, GPIO10이 Start였다. **이번에는 마지막 행도 좌우를 교환했으므로 GPIO8=Start, GPIO10=Select**다. 조이스틱 SW의 GPIO9=L3는 유지했다.
-
-### 조이스틱
-
-| 모듈 신호 | 보드 연결 |
+| Joystick pad | RP2040 |
 | --- | --- |
 | GND | GND |
-| VCC | **3V3** |
-| VRX | GPIO26 |
-| VRY | GPIO27 |
-| SW | **GPIO9 → L3** |
+| VCC / 5V marking | **3V3** |
+| VRX | **GPIO26** |
+| VRY | **GPIO27** |
+| SW / stick click | **GPIO9 → L3**, HID button 14 |
 
-모듈 핀 순서는 제품마다 다를 수 있으므로 기판에 인쇄된 신호명을 보고 연결한다. 이 프로젝트 배선에서는 조이스틱 전원을 보드의 **3V3**에 연결한다. GPIO11은 이번 펌웨어에서 사용하지 않는다.
+**Supply the joystick from 3V3, even if its power pad is marked 5V.** Identify pads by their signal labels; do not assume every module uses the same pin order. GPIO11 is unused.
 
-## 출력 방향과 첫 레이어
+For software that displays raw HID button numbers: **L2=9, R2=10, X=4, Y=5, A=1, B=2, Select=11, Start=12, L3=14**. GPIO8 is Start in this release; it was Select in the earlier `Handpad8_SW9_Select8.uf2`.
 
-| 부품 | 바닥에 놓는 면 | 서포트 |
-| --- | --- | --- |
-| 본체 | 본체 바닥, 세운 방향 | 사용 |
-| 앞판 | 키캡이 향하는 매끈한 앞면 | 사용. 스위치 뒷면 체결 홈의 서포트를 조심히 제거 |
-| 뚜껑 | 바깥 윗면 | 끔 |
+## 3. Assembly
 
-앞판의 홈이 있는 뒷면은 위를 향한다. 동봉 프로젝트는 첫 층 외벽 **20mm/s**, 채움 **25mm/s**, 높이 **0.2mm**, 선폭 **0.5mm**를 사용한다. 앞판에는 **바깥쪽 브림 3mm**를 적용했다. 예전 파일의 첫 층 외벽 50mm/s·채움 105mm/s와 다르다.
+1. **Print and remove supports.** Use the MakerWorld 3MF and select your actual printer, nozzle, material, and plate. Print the body upright, the front plate with its smooth outer face on the bed, and the lid with its outer top face on the bed. Supports are used for the body and front plate; keep the switch retaining lips and open-top controller grooves intact when removing them. The front-plate profile uses a 0.2 mm first layer, **20 mm/s walls**, **25 mm/s fill**, and a **3 mm outer brim**.
+2. **Fit six inserts.** Install four in the body's front screw posts and two in the top lid posts. Let them cool before assembly. The two joystick-support bores can remain empty for silicone fixation.
+3. **Fit and wire eight switches.** Push the switches into the front plate from outside. Use the front-view wiring table above, solder the individual signal wires and shared GND, and leave enough wire to reopen the case. Keep solder and adhesive out of the switch retaining recesses.
+4. **Seat the joystick.** Remove the cap and orient the module with its five signal connections pointing downward. With the front plate and lid removed, lower the PCB through the keyboard-side space, then seat it on the palm-side supports. Refit the cap from outside. The supports are offset **1.5 mm west** to accommodate the off-centre mechanism; the west support is shorter and the east support is longer. Check full stick travel and click clearance, then secure the PCB edges with silicone, keeping the mechanism and contacts clear.
+5. **Fit the controller.** Slide the RP2040 down into the two open-top U-grooves, USB socket facing upward and component side toward the keys. Plug in the USB cable **inside** the case. Test the inputs before securing the controller with silicone.
+6. **Flash and test.** [Download JoystickPad2.uf2](https://github.com/ddung2ina-lab/joystick_pad2/releases/download/v1.0.0/JoystickPad2.uf2). Hold **BOOT** while connecting to a PC, release it when **RPI-RP2** appears, and copy the UF2 onto that drive. Reconnect normally without BOOT, with the stick centred. The USB product name is **Handpad 8Key L3**. Test all eight keys, both axes, and L3; on Windows, use `Win+R → joy.cpl`.
+7. **Close the case.** Secure the front plate with **four M3 × 10 mm screws**. Lay the cable in the west-side semicircular notch, lower the lid so its matching notch completes the round exit, and fit **two M3 × 10 mm screws**. Keep wires away from joints and posts. Remove the lid first when reopening the case.
 
-동봉 3MF는 기존 **Bambu Lab A2L 0.4 / Generic PLA** 프로젝트 설정을 바탕으로 한다. 출력 전에 자신의 프린터·노즐·재료·플레이트 설정을 선택한다. 앞판 첫 층에서 선이 붙지 않거나 구멍 주변 선이 끌려오면 전체 출력을 계속하지 말고 첫 층 상태를 먼저 확인한다.
+Viewed down from the lid, **north is the joystick, south is the keyboard, and west is the USB cable exit**. The joystick aperture is a 26.6 mm opening in the body curve, without a separate raised bezel. The lid has internal relief for the offset supports; an older lid can be reused if it closes without interference.
 
-## 조립 순서
+![Inside the body, with the front plate and lid removed](docs/images/body-inside.png)
 
-### 1. 서포트 제거와 인서트 설치
+![Underside of the blank top lid](docs/images/lid-inside.png)
 
-본체 안쪽, 조이스틱 받침 아래, 보드 앞쪽의 서포트를 제거한다. 메인보드가 내려가는 양옆 U홈을 막지 않도록 정리한다. 앞판 뒷면의 스위치 체결턱은 얇으므로 서포트를 잡아 뜯지 말고 니퍼로 나눠 제거한다.
+## 4. Downloads and firmware source
 
-본체의 앞판 체결부 4곳과 뚜껑 체결부 2곳에 인서트를 설치하고 충분히 식힌다. 조이스틱 받침의 구멍에 인서트를 넣는 작업은 현재 실리콘 고정 방식에서는 생략한다.
+- **Print project:** corresponding **MakerWorld model page**; no 3MF/STL files are hosted here.
+- **Firmware:** [JoystickPad2.uf2 — v1.0.0](https://github.com/ddung2ina-lab/joystick_pad2/releases/download/v1.0.0/JoystickPad2.uf2), distributed through GitHub Releases.
+- **Checksum:** [SHA256SUMS.txt](SHA256SUMS.txt).
+- **English assembly manual:** [JoystickPad2_Assembly_Manual_EN.html](docs/JoystickPad2_Assembly_Manual_EN.html). Download and open it locally for the illustrated, printable guide.
+- **Editable Arduino sketch:** [Handpad8.ino](firmware/Handpad8/Handpad8.ino).
+- **Build instructions and pin mapping:** [firmware/README.md](firmware/README.md).
 
-### 2. 앞판에 스위치 장착·납땜
-
-스위치 8개를 앞면에서 끼우고 체결턱이 걸리는지 확인한다. 위 최종 배선표대로 각 신호선을 연결하고 GND는 공통으로 연결한다. 본체를 다시 열 수 있도록 배선 여유를 남기되 스위치 체결 홈을 실리콘이나 납으로 막지 않는다.
-
-### 3. 조이스틱 기판 장착
-
-조이스틱 캡을 빼고 **5핀 커넥터가 아래를 향하도록** 둔다. 앞판과 뚜껑을 연 상태에서 기판을 키보드 쪽 빈 공간으로 위에서 내려 넣은 뒤 손바닥 쪽 받침에 앉힌다. 캡은 바깥쪽에서 다시 끼운다.
-
-조이스틱은 기판 정중앙에 있지 않으므로, 현재 받침은 최초 대칭 설계보다 **서쪽으로 총 1.5mm 이동**해 있다. 서쪽 지지대는 짧고 동쪽은 길다. **원형 구멍 위치와 지름 26.6mm는 유지**했다. 돌출된 이중 테두리 없이 본체 곡면에 구멍이 나 있는 버전이다.
-
-스틱이 구멍 중앙에서 움직이는지, 네 방향 끝까지 기울이거나 L3를 누를 때 기판이 들뜨거나 간섭하지 않는지 먼저 확인한다. 위치를 맞춘 뒤 기판 가장자리를 실리콘으로 고정한다. 가동부와 핀 접점은 피한다. 별도 고정핀·탭은 현재 출력 부품에 포함하지 않는다.
-
-USB 방향은 **윗뚜껑에서 내려다본 기준**이다.
-
-```text
-              북: 손바닥 조이스틱
- 서: USB 출구                       동
-              남: 키보드 앞판
-```
-
-### 4. 메인보드 장착과 내부 USB 연결
-
-RP2040 보드의 USB 커넥터를 위로, 부품이 붙은 면을 키보드 쪽으로 향하게 하고 양옆 U홈 위에서 아래로 내려 끼운다. 걸쇠를 휘어 넣는 구조가 아니다. 본체 안에서 USB 케이블을 연결한다. 입력을 확인한 뒤 보드를 실리콘으로 고정한다.
-
-### 5. UF2 넣기와 입력 확인
-
-1. 보드의 BOOT 버튼을 누른 채 USB 데이터 케이블로 PC에 연결한다.
-2. `RPI-RP2` 드라이브가 나타나면 BOOT에서 손을 뗀다.
-3. [Handpad8_ColumnsFixed.uf2](https://github.com/ddung2ina-lab/joystick_pad2/raw/refs/heads/main/Handpad8_ColumnsFixed.uf2)를 해당 드라이브에 복사한다. 소스나 HTML 파일을 복사하는 것이 아니다.
-4. 복사가 끝나 보드가 재시작하면 스틱을 중앙에 놓는다. 전원을 켤 때 약 0.3초 동안 스틱을 건드리지 않는다.
-5. Windows에서는 `Win+R → joy.cpl`로 장치 **Handpad 8Key L3**의 버튼과 두 축을 확인한다. 앱에 따라 버튼은 L2/R2 등의 이름 대신 위 HID 번호로 보일 수 있다.
-6. 앞에서 보며 L2/R2 → X/Y → A/B → Select/Start가 각각 맞는지, 스틱 클릭은 L3인지 확인한다. 스틱 축의 방향도 실제 장착 상태에서 확인한다.
-
-이 펌웨어는 정상 부팅했던 **W25Q32 부트 코드 256바이트를 유지**한다. 좌우 열의 버튼 배치만 교환했으며 조이스틱 축 교환·반전·보정 설정과 L3 입력은 이전 소스 그대로다.
-
-### 6. 앞판과 뚜껑 닫기
-
-배선이 끼이지 않는지 보고 앞판을 나사 4개로 고정한다. USB 케이블은 **서쪽 본체·뚜껑 접합부의 반원 홈**에 놓는다. 뚜껑을 위에서 내려 덮으면 반원 두 개가 원형 출구가 된다. 나사 2개로 뚜껑을 고정한다.
-
-뚜껑 안쪽 지지대 회피 홈도 받침 이동에 맞춰 바뀌었다. 기존 뚜껑이 간섭 없이 닫히면 그대로 써도 된다. 분해할 때는 뚜껑부터 위로 빼고 앞판을 연다.
-
-## 소스와 빌드
-
-- [Arduino 소스](firmware/Handpad8/Handpad8.ino)
-- [버튼·GPIO 매핑](firmware/mapping.json)
-- [빌드 스크립트](firmware/build.py)
-- [빌드 검증 결과](firmware/build_report.json)
-
-빌드 환경은 Arduino-Pico **6.3.2**, TinyUSB, generic RP2040의 기존 2MB 설정을 사용한다. `build.py`의 `--toolchain-root`는 `arduino-cli.exe`와 `data/packages/rp2040/hardware/rp2040/6.3.2`가 있는 로컬 도구 폴더를 가리킨다.
-
-```powershell
-python firmware/build.py --toolchain-root C:/path/to/handpad-arduino-build
-```
-
-스크립트는 `boot2_W25Q32JVxQ_4_padded_checksum`을 명시해 빌드하고, 완성 UF2의 블록·버튼 매핑과 부트 코드 256바이트를 검사한다. 보드에 자동 업로드하지 않는다.
-
-현재 좌우 수정 UF2의 실제 보드 업로드·입력 확인은 아직 하지 않았다. 인쇄물의 공차와 기판 비대칭 보정은 사용자의 실제 조립 피드백을 반영한 것으로, 이 저장소의 검증 기록은 모든 부품 조합의 물리적 맞춤이나 강도를 보증하는 기록은 아니다.
+The UF2 retains the working **W25Q32 boot code**, stick-axis logic, and GPIO9/L3 assignment. All four front-key pairs are exchanged to match the reported physical wiring. Its compiled GPIO/HID table and all 256 boot-code bytes have been checked; the current column correction has not yet been tested on the physical controller.

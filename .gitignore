@@ -3,3 +3,12 @@ __pycache__/
 firmware/*.elf
 firmware/build.log
 .local/
+
+# Mechanical files are distributed on MakerWorld.
+/models/
+*.3mf
+*.stl
+
+# Compiled firmware is distributed through GitHub Releases.
+*.uf2
+/build/

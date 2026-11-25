@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660" role="img" aria-label="Logical wiring for eight front switches and joystick">
+<style>text{font:18px Arial,sans-serif;fill:#203b40}.wire{fill:none;stroke:#2c7e73;stroke-width:3}.key{fill:white;stroke:#6d9c91;stroke-width:2}.title{font-weight:bold;font-size:26px}.small{font-size:16px}</style>
+<rect width="1000" height="660" rx="16" fill="#f2f6f5"/>
+<text x="30" y="42" class="title">Front-view functions / GPIO wiring</text>
+<text x="30" y="76" class="small">Logical connections: GPIO labels are not physical header positions.</text>
+<rect x="465" y="94" width="140" height="490" rx="14" fill="#e1ece7" stroke="#89aa9d"/>
+<text x="535" y="610" text-anchor="middle">RP2040</text>
+<path d="M65 125V555H465" class="wire"/><text x="85" y="548">Shared GND</text><text x="480" y="561">GND</text>
+<path d="M65 125H145 M335 125H465" class="wire"/><rect x="145" y="107" width="190" height="36" rx="7" class="key"/><text x="240" y="131" text-anchor="middle">L2 / top left</text><text x="480" y="131">GPIO 3</text><path d="M65 173H145 M335 173H465" class="wire"/><rect x="145" y="155" width="190" height="36" rx="7" class="key"/><text x="240" y="179" text-anchor="middle">R2 / top right</text><text x="480" y="179">GPIO 2</text><path d="M65 221H145 M335 221H465" class="wire"/><rect x="145" y="203" width="190" height="36" rx="7" class="key"/><text x="240" y="227" text-anchor="middle">X / row 2 left</text><text x="480" y="227">GPIO 5</text><path d="M65 269H145 M335 269H465" class="wire"/><rect x="145" y="251" width="190" height="36" rx="7" class="key"/><text x="240" y="275" text-anchor="middle">Y / row 2 right</text><text x="480" y="275">GPIO 4</text><path d="M65 317H145 M335 317H465" class="wire"/><rect x="145" y="299" width="190" height="36" rx="7" class="key"/><text x="240" y="323" text-anchor="middle">A / row 3 left</text><text x="480" y="323">GPIO 7</text><path d="M65 365H145 M335 365H465" class="wire"/><rect x="145" y="347" width="190" height="36" rx="7" class="key"/><text x="240" y="371" text-anchor="middle">B / row 3 right</text><text x="480" y="371">GPIO 6</text><path d="M65 413H145 M335 413H465" class="wire"/><rect x="145" y="395" width="190" height="36" rx="7" class="key"/><text x="240" y="419" text-anchor="middle">Select / bottom left</text><text x="480" y="419">GPIO 10</text><path d="M65 461H145 M335 461H465" class="wire"/><rect x="145" y="443" width="190" height="36" rx="7" class="key"/><text x="240" y="467" text-anchor="middle">Start / bottom right</text><text x="480" y="467">GPIO 8</text>
+<rect x="650" y="115" width="320" height="355" rx="14" fill="#fff4e5" stroke="#c7a26d"/>
+<text x="810" y="155" text-anchor="middle" class="title">Joystick</text>
+<text x="675" y="205">GND → GND</text><text x="675" y="248">VCC → 3V3</text>
+<text x="675" y="291">VRX → GPIO26</text><text x="675" y="334">VRY → GPIO27</text>
+<text x="675" y="377">SW → GPIO9 / L3</text>
+<text x="675" y="433" class="small">Use the module's signal labels.</text>
+<text x="30" y="640" class="small">Each switch: one contact to its GPIO; the other to common GND. Rear soldering view mirrors left/right.</text>
+</svg>
