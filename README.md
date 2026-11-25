@@ -73,7 +73,6 @@ Viewed down from the lid, **north is the joystick, south is the keyboard, and we
 - **Print project:** corresponding **MakerWorld model page**; no 3MF/STL files are hosted here.
 - **Firmware:** [JoystickPad2.uf2 — v1.0.0](https://github.com/ddung2ina-lab/joystick_pad2/releases/download/v1.0.0/JoystickPad2.uf2), distributed through GitHub Releases.
 - **Checksum:** [SHA256SUMS.txt](SHA256SUMS.txt).
-- **English assembly manual:** [JoystickPad2_Assembly_Manual_EN.html](docs/JoystickPad2_Assembly_Manual_EN.html). Download and open it locally for the illustrated, printable guide.
 - **Editable Arduino sketch:** [Handpad8.ino](firmware/Handpad8/Handpad8.ino).
 - **Build instructions and pin mapping:** [firmware/README.md](firmware/README.md).
 
